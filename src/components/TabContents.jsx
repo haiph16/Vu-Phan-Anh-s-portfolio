@@ -3,7 +3,10 @@ import { renderBoldBullets } from "../utils/portfolioHelpers";
 import {
   academicItems,
   universityItems,
+  asianUniversityItems,
+  europeanUniversityItems,
   researchItems,
+  researchImages,
   awardItems,
   awardImages,
   leadershipItems,
@@ -15,7 +18,31 @@ import {
 } from "../data/portfolioData";
 
 // ─── Shared sub-components ────────────────────────────────────────────────────
+export const renderSimpleBullets = (text, isDarkMode = false) => {
+  const lines = text
+    .split("\n")
+    .map((line) => line.trim().replace(/^•\s*/, ""))
+    .filter((line) => line);
 
+  return (
+    <div className="space-y-2.5">
+      {lines.map((line, idx) => (
+        <div key={idx} className="flex items-start gap-2">
+          <span
+            className={`mt-1.5 w-2 h-2 rounded-full flex-shrink-0 ${isDarkMode ? "bg-green-400" : "bg-green-700"
+              }`}
+          />
+          <p
+            className={`text-sm leading-relaxed text-left ${isDarkMode ? "text-gray-300" : "text-gray-800"
+              }`}
+          >
+            {line}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+};
 const CalendarIcon = () => (
   <svg
     className="w-5 h-5"
@@ -34,7 +61,7 @@ const CalendarIcon = () => (
 
 const PersonIcon = () => (
   <svg
-    className="w-5 h-5"
+    className="w-5 h-5 "
     fill="none"
     stroke="currentColor"
     viewBox="0 0 24 24"
@@ -81,20 +108,41 @@ const ChevronRightIcon = () => (
 );
 
 const CategoryBadge = ({ label }) => (
-  <div className="absolute md:top-1 md:left-1 top-0.5 left-0.5">
-    <span className="flex items-center bg-green-800 text-white px-3 py-1 rounded-full text-sm md:text-lg font-medium">
+  <div className="flex mb-3">
+    <span
+      className="inline-flex items-center justify-center 
+      bg-green-800 text-white  text-[15px] 
+      rounded-full font-bold 
+      px-3 py-1 mt-2
+      whitespace-nowrap shadow-sm mx-auto w-64 leading-tight "
+    >
       {label}
     </span>
   </div>
 );
 
+// ─── Section pill header (e.g. "Professional" / "Leadership") ────────────────
+const SectionHeader = ({ label }) => (
+  <div className="flex justify-center mb-8">
+    <h3
+      className="inline-flex items-center justify-center 
+      bg-green-800 text-white text-[15px] 
+      rounded-full font-bold 
+      px-3 py-1 mt-2
+      whitespace-nowrap shadow-sm mx-auto w-48 leading-tight"
+    >
+      {label}
+    </h3>
+  </div>
+);
+
 const ViewImageFooter = ({ isDarkMode }) => (
   <div
-    className={`mt-auto pt-4 border-t ${isDarkMode ? "border-gray-600/30" : "border-gray-100"}`}
+    className={`mt-4 pt-4 border-t ${isDarkMode ? "border-gray-600/30" : "border-gray-100"}`}
   >
     <span
       className={`${isDarkMode ? "text-white hover:text-gray-300" : "text-green-800 hover:text-green-600"}
-      font-medium text-sm sm:text-base transition flex items-center gap-2 group-hover:gap-3 cursor-pointer`}
+      font-medium text-sm sm:text-left transition flex items-center gap-2 group-hover:gap-3 cursor-pointer`}
     >
       View Image
       <ChevronRightIcon />
@@ -108,117 +156,183 @@ export const AcademicTab = ({ isDarkMode }) => (
   <div className="space-y-10">
     {/* Credentials Section */}
     <div>
-      <h3
-        className={`text-xl md:text-2xl font-bold mb-6 pb-3 border-b-2 ${
-          isDarkMode
-            ? "text-white border-gray-600"
-            : "text-green-800 border-green-300"
-        }`}
-      >
-        Academic Credentials
-      </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      <div className="flex justify-center mb-8">
+        <h3
+          className="inline-flex items-center justify-center 
+      bg-green-800 text-white  text-[15px] 
+      rounded-full font-bold 
+      px-3 py-1 mt-2
+      whitespace-nowrap shadow-sm mx-auto w-60 leading-tight"
+        >
+          Academic Credentials
+        </h3>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {academicItems.map((item, idx) => (
-          <a
+          <div
             key={idx}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="card-animate group h-full"
+            className={`flex flex-col rounded-xl overflow-hidden border shadow-md transition-all duration-300 hover:-translate-y-1
+      ${isDarkMode ? "bg-slate-700 border-slate-600" : "bg-white border-gray-100"}`}
           >
-            <div
-              className={`relative overflow-hidden rounded-xl h-full flex flex-col
-              ${isDarkMode ? "bg-slate-700 border-slate-600" : "bg-white/80 border-gray-100/50"}
-              border shadow-md transition-all duration-300 hover:-translate-y-0.5`}
-            >
-              <div className="relative overflow-hidden md:h-48 h-32">
-                <div
-                  className={`absolute inset-0 bg-linear-to-br py-2 md:py-4 ${item.color}
-                  to-transparent opacity-50 group-hover:opacity-70 transition-opacity`}
-                />
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  className="w-full h-full object-contain my-2 md:my-4 group-hover:scale-110 transition-transform duration-500"
-                />
-              </div>
+            {/* Logo */}
+            <div className="h-40 sm:h-48 overflow-hidden bg-gray-50 flex items-center justify-center p-6">
+              <img
+                src={item.img}
+                alt={item.title}
+                className="max-h-full object-contain hover:scale-105 transition-transform"
+              />
+            </div>
 
-              <div className="flex flex-col flex-1 p-4 sm:p-5 mb-12 md:mb-16">
-                <div
-                  className={`flex items-center gap-3 text-md md:text-lg
-                  ${isDarkMode ? "text-gray-400" : "text-gray-500"} mb-3`}
-                >
-                  <time
-                    dateTime={item.date}
-                    className="flex items-center gap-1"
-                  >
-                    <CalendarIcon /> {item.date}
-                  </time>
-                </div>
-                <h3
-                  className={`text-[14px] md:text-[16px] text-left font-bold mb-3
-                  ${isDarkMode ? "text-gray-100" : "text-gray-900 hover:text-green-800"} transition`}
+            <div className="p-5 flex flex-col flex-1">
+              {/* Organization */}
+              <div
+                className={`flex items-start gap-2 mb-2 ${isDarkMode ? "text-green-400" : "text-green-800"
+                  }`}
+              >
+                <BuildingIcon />
+                <span
+                  className={`text-base font-bold leading-tight text-left ${isDarkMode ? "text-white" : "text-gray-900"
+                    }`}
                 >
                   {item.title}
-                </h3>
-                <h2 className="leading-relaxed whitespace-pre-line text-[14px] md:text-[16px] text-left">
-                  {item.desc}
-                </h2>
+                </span>
               </div>
+
+              {/* Program | Date */}
+              <div className={`flex items-start gap-2 mb-2 text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
+                <span className={isDarkMode ? "text-green-400" : "text-green-800"}>
+                  <CalendarIcon />
+                </span>
+                <span className="leading-snug text-left">
+                  {item.date}
+                </span>
+              </div>
+              <div
+                className={`flex items-start gap-2 mb-4 text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"
+                  }`}
+              >
+                <span className={isDarkMode ? "text-green-400" : "text-green-800"}>
+                  <PersonIcon />
+                </span>
+                <span className="leading-snug text-left">
+                  {item.author}
+                </span>
+              </div>
+
+              {/* Divider */}
+              <div
+                className={`border-t mb-4 ${isDarkMode ? "border-gray-600/30" : "border-gray-100"
+                  }`}
+              />
+
+              {/* Bullet list */}
+              {renderSimpleBullets(item.desc, isDarkMode)}
             </div>
-          </a>
+          </div>
         ))}
       </div>
     </div>
 
-    {/* University Admissions Section */}
+    {/* Asian University Admissions */}
     <div>
-      <h3
-        className={`text-xl md:text-2xl font-bold mb-6 pb-3 border-b-2 ${
-          isDarkMode
-            ? "text-white border-gray-600"
-            : "text-green-800 border-green-300"
-        }`}
-      >
-        University Admissions
-      </h3>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
-        {universityItems.map((item, idx) => (
-          <a
-            key={idx}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="card-animate group h-full"
-          >
-            <div
-              className={`relative overflow-hidden rounded-lg h-full flex flex-col
-              ${isDarkMode ? "bg-slate-700 border-slate-600" : "bg-white/80 border-gray-100/50"}
-              border shadow-md transition-all duration-300 hover:-translate-y-0.5`}
-            >
-              <div className="relative overflow-hidden h-24 sm:h-28 md:h-32">
-                <div
-                  className={`absolute inset-0 bg-linear-to-br py-2 ${item.color}
-                  to-transparent opacity-50 group-hover:opacity-70 transition-opacity`}
-                />
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  className="w-full h-full object-contain my-1 md:my-2 group-hover:scale-110 transition-transform duration-500"
-                />
-              </div>
+      <div className="flex justify-center mb-8">
+        <h3
+          className="inline-flex items-center justify-center 
+        bg-green-800 text-white  text-[15px] 
+        rounded-full font-bold 
+        px-3 py-1 mt-2
+        whitespace-nowrap shadow-sm mx-auto w-72 leading-tight"
+        >
+          Asian University Admissions
+        </h3>
+      </div>
 
-              <div className="flex flex-col flex-1 p-2 sm:p-3">
-                <h3
-                  className={`text-xs sm:text-sm font-bold text-center ${
-                    isDarkMode
-                      ? "text-gray-100"
-                      : "text-gray-900 hover:text-green-800"
-                  } transition line-clamp-3`}
-                >
-                  {item.title}
-                </h3>
-              </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {asianUniversityItems.map((item, idx) => (
+          <div
+            key={idx}
+            className={`flex flex-col rounded-xl overflow-hidden border shadow-md transition-all duration-300 hover:-translate-y-1
+          ${isDarkMode ? "bg-slate-700 border-slate-600" : "bg-white border-gray-100"}`}
+          >
+            {/* Image */}
+            <div className="h-24 w-full overflow-hidden bg-white flex items-center justify-center">
+              <img
+                src={item.img}
+                alt={item.title}
+                className="max-h-full w-full object-contain pt-2 hover:scale-105 transition-transform duration-300"
+              />
             </div>
-          </a>
+
+            {/* Content */}
+            <div className="px-3 pb-1 flex flex-col flex-1">
+              <h3
+                className={`font-medium text-1rem text-center my-2 leading-relaxed whitespace-pre-line ${isDarkMode ? "text-white" : "text-gray-900"
+                  }`}
+              >
+                {item.title}
+              </h3>
+              {item.desc && (
+                <p
+                  className={`text-sm leading-relaxed whitespace-pre-line ${isDarkMode ? "text-gray-300" : "text-gray-600"
+                    }`}
+                >
+                  {item.desc}
+                </p>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* European University Admissions */}
+    <div>
+      <div className="flex justify-center mb-8">
+        <h3
+          className="inline-flex items-center justify-center 
+        bg-green-800 text-white  text-[15px] 
+        rounded-full font-bold 
+        px-3 py-1 mt-2
+        whitespace-nowrap shadow-sm mx-auto w-80 leading-tight"
+        >
+          European University Admissions
+        </h3>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {europeanUniversityItems.map((item, idx) => (
+          <div
+            key={idx}
+            className={`flex flex-col rounded-xl overflow-hidden border shadow-md transition-all duration-300 hover:-translate-y-1
+          ${isDarkMode ? "bg-slate-700 border-slate-600" : "bg-white border-gray-100"}`}
+          >
+            {/* Image */}
+            <div className="h-24 w-full overflow-hidden bg-white flex items-center justify-center">
+              <img
+                src={item.img}
+                alt={item.title}
+                className="max-h-full w-full px-14 object-contain hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+
+            {/* Content */}
+            <div className="px-3 pb-1 flex flex-col flex-1">
+              <h3
+                className={`font-medium text-1rem text-center my-2 leading-tight ${isDarkMode ? "text-white" : "text-gray-900"
+                  }`}
+              >
+                {item.title}
+              </h3>
+              {item.desc && (
+                <p
+                  className={`text-sm leading-relaxed whitespace-pre-line ${isDarkMode ? "text-gray-300" : "text-gray-600"
+                    }`}
+                >
+                  {item.desc}
+                </p>
+              )}
+            </div>
+          </div>
         ))}
       </div>
     </div>
@@ -227,314 +341,254 @@ export const AcademicTab = ({ isDarkMode }) => (
 
 // ─── Research Experiences Tab ─────────────────────────────────────────────────
 
-export const ResearchTab = ({ isDarkMode }) => (
-  <div className="space-y-6 sm:space-y-8">
+export const ResearchTab = ({ isDarkMode, onImageOpen }) => (
+  <div className="space-y-8">
     {researchItems.map((item, idx) => (
       <article
         key={idx}
-        className={`card-animate group ${isDarkMode ? "bg-slate-700 border-slate-600" : "bg-white border-green-200"}
-          rounded-xl overflow-hidden hover:shadow-xl shadow-md transition-shadow duration-300`}
+        className={`card-animate group rounded-xl overflow-hidden shadow-md border transition-all
+          ${isDarkMode ? "bg-slate-700 border-slate-600" : "bg-white border-green-100"}`}
       >
         <div className="flex flex-col md:flex-row">
-          {/* Image column */}
-          <div className="md:w-1/3 flex flex-col justify-center items-center w-full overflow-hidden">
-            <div className="pt-4 md:pt-8">
-              <span className="flex items-center bg-green-800 text-white px-3 py-1 rounded-full text-sm md:text-lg font-medium">
-                {item.category}
-              </span>
+          <div className="w-full md:w-1/3 bg-gray-50/50 p-4 md:p-6 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-100">
+            <CategoryBadge label={item.category} />
+
+            <div
+              className="cursor-pointer overflow-hidden rounded-lg my-4 w-full flex justify-center"
+              onClick={() => onImageOpen(researchImages, idx)}
+            >
+              <img
+                src={item.image}
+                alt={item.title}
+                className="max-h-48 md:max-h-full w-auto object-contain hover:scale-105 md:hover:scale-110 transition-transform duration-500"
+              />
             </div>
-            <img
-              src={item.image}
-              alt={item.title}
-              className="w-full h-40 my-4 md:my-8 md:pl-8 md:pr-8 md:h-full object-contain"
-            />
-            <div className="md:pb-6 sm:pb-8 flex text-green-700 justify-center">
-              <a
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`inline-flex items-center gap-2
-                  ${isDarkMode ? "text-white hover:text-gray-300" : "text-blue-800 hover:text-green-800"}
-                  font-semibold text-sm md:text-base transition-all hover:gap-3`}
-              >
-                View Full Research <ExternalLinkIcon />
-              </a>
-            </div>
+
+            <a
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 font-bold text-sm flex items-center gap-1 hover:underline text-center"
+            >
+              Full Research <ExternalLinkIcon />
+            </a>
           </div>
 
-          {/* Content column */}
-          <div className="md:w-2/3 w-full md:p-6 p-4 pt-2">
-            <h3
-              className={`text-md md:text-xl font-bold
-              ${isDarkMode ? "text-gray-100" : "text-gray-900 hover:text-green-800"}
-              mb-3 whitespace-pre-line transition leading-tight`}
-            >
-              {item.title}
-              {item.paperLink && (
-                <>
-                  {"\n"}
-                  <a
-                    href={item.paperLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-blue-800 hover:text-green-800
-                      font-semibold text-sm md:text-base transition-all hover:gap-1"
-                  >
-                    <ExternalLinkIcon /> Link
-                  </a>
-                </>
-              )}
-            </h3>
-
-            <p
-              className={`text-md md:text-xl ${isDarkMode ? "text-gray-300" : "text-gray-600"} mb-4 font-medium`}
-            >
-              By {item.author}
-            </p>
-
-            <span className="flex items-center text-md md:text-lg font-bold gap-1">
-              <PersonIcon /> {item.role}
-            </span>
-
-            <div className="mb-4 flex items-center gap-2">
-              <span
-                className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}
-              >
-                {renderBoldBullets(item.date)}
+          <div className="md:w-2/3 p-6">
+            {/* Organization */}
+            <div className={`flex items-start gap-2 mb-2 ${isDarkMode ? "text-green-400" : "text-green-800"}`}>
+              <BuildingIcon />
+              <span className={`text-sm sm:text-base font-bold leading-snug text-left ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+                {item.title}
               </span>
             </div>
 
-            {renderBoldBullets(item.desc)}
+            {/* Event + Date (calendar) */}
+            <div className={`flex items-start gap-2 mb-2 text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
+              <span className={isDarkMode ? "text-green-400" : "text-green-800"}>
+                <CalendarIcon />
+              </span>
+              <span className="leading-snug text-left">
+                {item.date}
+              </span>
+            </div>
+
+            {/* Title | Role (person) */}
+            <div className={`flex items-start gap-2 mb-4 text-sm font-medium ${isDarkMode ? "text-gray-300" : "text-gray-500"}`}>
+              <span className={isDarkMode ? "text-green-400" : "text-green-800"}>
+                <PersonIcon />
+              </span>
+              <span className="leading-snug text-left">
+                {item.author}
+              </span>
+            </div>
+            <div className="prose prose-sm max-w-none">
+              {renderBoldBullets(item.desc, isDarkMode)}
+            </div>
           </div>
         </div>
       </article>
     ))}
   </div>
 );
-
+const BuildingIcon = () => (
+  <svg
+    className="w-5 h-5 flex-shrink-0"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1m4 0h1m-6 4h1m4 0h1m-6 4h1m4 0h1"
+    />
+  </svg>
+);
 // ─── Awards & Honors Tab ──────────────────────────────────────────────────────
 
-export const AwardsTab = ({ isDarkMode, onImageOpen }) => (
-  <div className="grid sm:grid-cols-2 grid-cols-1 gap-6 sm:gap-8">
+export const AwardsTab = (props) => (
+  <div className="grid grid-cols-1 gap-6">
     {awardItems.map((item, idx) => (
-      <article key={idx} className="card-animate group h-full cursor-pointer">
-        <button
-          onClick={() => onImageOpen(awardImages, idx)}
-          className="block h-full w-full text-left"
-        >
-          <div
-            className={`relative overflow-hidden rounded-xl h-full flex flex-col
-            ${isDarkMode ? "bg-gray-700/50 border-gray-600/50" : "bg-white/80 border-gray-100/50"}
-            border shadow-md transition-all duration-300 hover:-translate-y-0.5`}
-          >
-            <div className="relative overflow-hidden h-40 md:h-48 cursor-pointer">
-              <div
-                className={`absolute inset-0 bg-linear-to-br py-4 ${item.color}
-                to-transparent opacity-50 group-hover:opacity-70 transition-opacity`}
-              />
-              <img
-                src={item.img}
-                alt={item.title}
-                className="w-full h-full object-contain my-4 group-hover:scale-110 transition-transform duration-500"
-              />
-              <CategoryBadge label={item.category} />
-            </div>
-
-            <div className="flex flex-col flex-1 p-5 sm:p-6">
-              <div
-                className={`flex items-center gap-3 text-md md:text-lg
-                ${isDarkMode ? "text-gray-400" : "text-gray-500"} mb-3`}
-              >
-                <time dateTime={item.date} className="flex items-center gap-1">
-                  <CalendarIcon /> {item.date}
-                </time>
-              </div>
-              <h3
-                className={`text-md md:text-lg font-bold
-                ${isDarkMode ? "text-gray-100" : "text-gray-900 hover:text-green-800"}
-                mb-3 transition leading-tight`}
-              >
-                {item.title}
-              </h3>
-              {renderBoldBullets(item.desc, isDarkMode)}
-              <ViewImageFooter isDarkMode={isDarkMode} />
-            </div>
-          </div>
-        </button>
-      </article>
+      <StandardCard
+        key={idx}
+        item={item}
+        idx={idx}
+        {...props}
+        images={awardImages}
+      />
     ))}
   </div>
 );
 
-// ─── Leadership Projects Tab ──────────────────────────────────────────────────
+// ─── Leadership, Extracurricular, Social Impact (Dùng chung Layout mới) ────────
 
-export const LeadershipTab = ({ isDarkMode, onImageOpen }) => (
-  <div className="grid sm:grid-cols-2 grid-cols-1 gap-4 sm:gap-6">
-    {leadershipItems.map((item, idx) => (
-      <article key={idx} className="card-animate group h-full cursor-pointer">
-        <button
-          onClick={() => onImageOpen(leadershipImages, idx)}
-          className="block h-full w-full text-left"
+const StandardCard = ({ item, idx, isDarkMode, onImageOpen, images, showCategoryBadge = true }) => (
+  <article className="h-full">
+    <div
+      className={`flex flex-col h-full rounded-xl overflow-hidden border shadow-md transition-all hover:-translate-y-1
+      ${isDarkMode ? "bg-slate-700 border-slate-600" : "bg-white border-gray-100"}`}
+    >
+      {showCategoryBadge && <CategoryBadge label={item.category} />}
+
+      <div
+        className="h-48 overflow-hidden bg-gray-50 flex items-center justify-center cursor-pointer"
+        onClick={() => onImageOpen(images, idx)}
+      >
+        <img
+          src={item.img}
+          alt={item.organization || item.title}
+          className="max-h-full object-contain hover:scale-105 transition-transform duration-500"
+        />
+      </div>
+
+      <div className="p-4 flex flex-col flex-1">
+        {/* Organization */}
+        <div
+          className={`flex items-start gap-2 mb-2 ${isDarkMode ? "text-green-400" : "text-green-800"
+            }`}
         >
-          <div
-            className={`relative overflow-hidden rounded-xl h-full flex flex-col
-            ${isDarkMode ? "bg-gray-700/50 border-gray-600/50" : "bg-white/80 border-gray-100/50"}
-            border shadow-md transition-all duration-300 hover:-translate-y-0.5`}
+          <BuildingIcon />
+          <span
+            className={`text-base font-bold leading-tight text-left ${isDarkMode ? "text-white" : "text-gray-900"
+              }`}
           >
-            <div className="relative overflow-hidden h-40 md:h-48 cursor-pointer">
-              <div
-                className={`absolute inset-0 bg-linear-to-br py-4 ${item.color}
-                to-transparent opacity-50 group-hover:opacity-70 transition-opacity`}
-              />
-              <img
-                src={item.img}
-                alt={item.title}
-                className="w-full h-full object-contain my-4 group-hover:scale-110 transition-transform duration-500"
-              />
-              <CategoryBadge label={item.category} />
-            </div>
+            {item.organization || item.title}
+          </span>
+        </div>
 
-            <div className="flex flex-col flex-1 p-5 sm:p-6">
-              <div
-                className={`flex items-center gap-2 text-md md:text-lg text-gray-500 mb-3`}
-              >
-                <time dateTime={item.date} className="flex items-center gap-1">
-                  <CalendarIcon /> {item.date}
-                </time>
-                <span>•</span>
-                <span className="flex items-center gap-1">
-                  <PersonIcon /> {item.author}
-                </span>
-              </div>
-              <h3
-                className={`text-md md:text-lg font-bold whitespace-pre-line
-                ${isDarkMode ? "text-gray-100" : "text-gray-900 hover:text-green-800"}
-                mb-3 transition leading-tight`}
-              >
-                {item.title}
-              </h3>
-              {renderBoldBullets(item.desc, isDarkMode)}
-              <ViewImageFooter isDarkMode={isDarkMode} />
-            </div>
-          </div>
-        </button>
-      </article>
-    ))}
-  </div>
+        {/* Date */}
+        <div
+          className={`flex items-start gap-2 mb-2 text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"
+            }`}
+        >
+          <span className={isDarkMode ? "text-green-400" : "text-green-800"}>
+            <CalendarIcon />
+          </span>
+          <span className="leading-snug text-left">{item.date}</span>
+        </div>
+
+        {/* Program | Role */}
+        <div
+          className={`flex items-start gap-2 mb-4 text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"
+            }`}
+        >
+          <span className={isDarkMode ? "text-green-400" : "text-green-800"}>
+            <PersonIcon />
+          </span>
+          <span className="leading-snug text-left">
+            {item.program && <>{item.program} | </>}
+            {item.role && <span className="font-semibold">{item.role}</span>}
+          </span>
+        </div>
+
+        {/* Divider */}
+        <div
+          className={`border-t mb-4 ${isDarkMode ? "border-gray-600/30" : "border-gray-100"
+            }`}
+        />
+
+        <div className="text-sm flex-1">
+          {renderBoldBullets(item.desc, isDarkMode)}
+        </div>
+
+        <div onClick={() => onImageOpen(images, idx)}>
+          <ViewImageFooter isDarkMode={isDarkMode} />
+        </div>
+      </div>
+    </div>
+  </article>
 );
 
-// ─── Extracurricular Experiences Tab ─────────────────────────────────────────
+// ─── Leadership Tab: grouped into "Professional" and "Leadership" sections ───
+// Each leadershipItems entry has a `group` field ("Professional" | "Leadership").
+// We keep the item's original index (its position in leadershipItems) so it
+// still lines up correctly with leadershipImages for the image modal/navigation.
+export const LeadershipTab = (props) => {
+  const groupOrder = ["Professional", "Leadership"];
 
-export const ExtracurricularTab = ({ isDarkMode, onImageOpen }) => (
-  <div className="grid sm:grid-cols-2 sm:[&>*:nth-child(1)]:col-span-2 grid-cols-1 gap-6 sm:gap-8">
+  const indexedItems = leadershipItems.map((item, idx) => ({ item, idx }));
+
+  return (
+    <div className="space-y-10">
+      {groupOrder.map((groupName) => {
+        const itemsInGroup = indexedItems.filter(
+          ({ item }) => item.group === groupName
+        );
+        if (!itemsInGroup.length) return null;
+
+        return (
+          <div key={groupName}>
+            <SectionHeader label={groupName} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {itemsInGroup.map(({ item, idx }) => (
+                <StandardCard
+                  key={idx}
+                  item={item}
+                  idx={idx}
+                  {...props}
+                  images={leadershipImages}
+                  showCategoryBadge={false}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export const ExtracurricularTab = (props) => (
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
     {extracurricularItems.map((item, idx) => (
-      <article key={idx} className="card-animate group h-full cursor-pointer">
-        <button
-          onClick={() => onImageOpen(extracurricularImages, idx)}
-          className="block h-full w-full text-left"
-        >
-          <div
-            className={`relative overflow-hidden rounded-xl h-full flex flex-col
-            ${isDarkMode ? "bg-gray-700/50 border-gray-600/50" : "bg-white/80 border-gray-100/50"}
-            border shadow-md transition-all duration-300 hover:-translate-y-0.5`}
-          >
-            <div className="relative overflow-hidden h-40 md:h-48 cursor-pointer">
-              <div
-                className={`absolute inset-0 bg-linear-to-br py-4 ${item.color}
-                to-transparent opacity-50 group-hover:opacity-70 transition-opacity`}
-              />
-              <img
-                src={item.img}
-                alt={item.title}
-                className="w-full h-full object-contain my-4 group-hover:scale-110 transition-transform duration-500"
-              />
-              <CategoryBadge label={item.category} />
-            </div>
-
-            <div className="flex flex-col flex-1 p-5 sm:p-6">
-              <div
-                className={`flex items-center gap-3 text-md md:text-lg
-                ${isDarkMode ? "text-gray-400" : "text-gray-500"} mb-3`}
-              >
-                <time dateTime={item.date} className="flex items-center gap-1">
-                  <CalendarIcon /> {item.date}
-                </time>
-                <span>•</span>
-                <span className="flex items-center gap-1">
-                  <PersonIcon /> {item.author}
-                </span>
-              </div>
-              <h3
-                className={`text-lg font-bold whitespace-pre-line
-                ${isDarkMode ? "text-gray-100" : "text-gray-900 hover:text-green-800"}
-                mb-3 transition leading-tight`}
-              >
-                {item.title}
-              </h3>
-              {renderBoldBullets(item.desc, isDarkMode)}
-              <ViewImageFooter isDarkMode={isDarkMode} />
-            </div>
-          </div>
-        </button>
-      </article>
+      <div
+        key={idx}
+      // className={idx === 0 ? "sm:col-span-2" : ""}
+      >
+        <StandardCard
+          item={item}
+          idx={idx}
+          {...props}
+          images={extracurricularImages}
+        />
+      </div>
     ))}
   </div>
 );
 
-// ─── Social Impacts Tab ───────────────────────────────────────────────────────
-
-export const SocialImpactsTab = ({ isDarkMode, onImageOpen }) => (
-  <div className="grid sm:grid-cols-2 sm:[&>*:nth-child(1)]:col-span-2 grid-cols-1 gap-4 sm:gap-6">
+export const SocialImpactsTab = (props) => (
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
     {socialImpactItems.map((item, idx) => (
-      <article key={idx} className="card-animate group h-full cursor-pointer">
-        <button
-          onClick={() => onImageOpen(socialImpactImages, idx)}
-          className="block h-full w-full text-left"
-        >
-          <div
-            className={`relative overflow-hidden rounded-xl h-full flex flex-col
-            ${isDarkMode ? "bg-gray-700/50 border-gray-600/50" : "bg-white/80 border-gray-100/50"}
-            border shadow-md transition-all duration-300 hover:-translate-y-0.5`}
-          >
-            <div className="relative overflow-hidden h-40 md:h-48 cursor-pointer">
-              <div
-                className={`absolute inset-0 bg-linear-to-br py-4 ${item.color}
-                to-transparent opacity-50 group-hover:opacity-70 transition-opacity`}
-              />
-              <img
-                src={item.img}
-                alt={item.title}
-                className="w-full h-full object-contain my-4 group-hover:scale-110 transition-transform duration-500"
-              />
-              <CategoryBadge label={item.category} />
-            </div>
-
-            <div className="flex flex-col flex-1 p-5 sm:p-6">
-              <div
-                className={`flex items-center gap-3 text-md md:text-lg
-                ${isDarkMode ? "text-gray-400" : "text-gray-500"} mb-3`}
-              >
-                <time dateTime={item.date} className="flex items-center gap-1">
-                  <CalendarIcon /> {item.date}
-                </time>
-                <span>•</span>
-                <span className="flex items-center gap-1">
-                  <PersonIcon /> {item.author}
-                </span>
-              </div>
-              <h3
-                className={`text-md md:text-lg whitespace-pre-line font-bold
-                ${isDarkMode ? "text-gray-100" : "text-gray-900 hover:text-green-800"}
-                mb-3 transition leading-tight`}
-              >
-                {item.title}
-              </h3>
-              {renderBoldBullets(item.desc, isDarkMode)}
-              <ViewImageFooter isDarkMode={isDarkMode} />
-            </div>
-          </div>
-        </button>
-      </article>
+      <div key={idx} className={idx === 0 ? "sm:col-span-2" : ""}>
+        <StandardCard
+          item={item}
+          idx={idx}
+          {...props}
+          images={socialImpactImages}
+        />
+      </div>
     ))}
   </div>
 );

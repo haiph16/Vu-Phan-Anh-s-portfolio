@@ -17,21 +17,21 @@ import {
 
 const TabContent = ({ activeTab, isDarkMode, onImageOpen }) => {
   switch (activeTab) {
-    case "Academic Profiles":
+    case "Academic Profile":
       return <AcademicTab isDarkMode={isDarkMode} />;
-    case "Research Experiences":
-      return <ResearchTab isDarkMode={isDarkMode} />;
+    case "Research Experience":
+      return <ResearchTab isDarkMode={isDarkMode} onImageOpen={onImageOpen} />;
     case "Awards & Honors":
       return <AwardsTab isDarkMode={isDarkMode} onImageOpen={onImageOpen} />;
-    case "Leadership Projects":
+    case "Professional & Leadership":
       return (
         <LeadershipTab isDarkMode={isDarkMode} onImageOpen={onImageOpen} />
       );
-    case "Extracurricular Experiences":
+    case "Extracurricular Activities":
       return (
         <ExtracurricularTab isDarkMode={isDarkMode} onImageOpen={onImageOpen} />
       );
-    case "Social Impacts":
+    case "Social Impact":
       return (
         <SocialImpactsTab isDarkMode={isDarkMode} onImageOpen={onImageOpen} />
       );
@@ -43,7 +43,7 @@ const TabContent = ({ activeTab, isDarkMode, onImageOpen }) => {
 export default function Portfolio() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isImageOpened, setIsImageOpened] = useState(false);
-  const [activeTab, setActiveTab] = useState("Academic Profiles");
+  const [activeTab, setActiveTab] = useState("Academic Profile");
   const [currentImage, setCurrentImage] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [allImages, setAllImages] = useState([]);
@@ -287,13 +287,12 @@ export default function Portfolio() {
                     onClick={() => setIsNavProjectsDropdownOpen((v) => !v)}
                     className={`nav-link relative flex items-center justify-center ${navLinkClass("projects")}`}
                   >
-                    <span className="mx-auto">PROJECTS</span>
+                    <span className="mx-auto">DETAILS</span>
 
                     <ChevronDown
                       size={18}
-                      className={`absolute right-2 transition-transform duration-300 ${
-                        isNavProjectsDropdownOpen ? "rotate-180" : ""
-                      }`}
+                      className={`absolute right-2 transition-transform duration-300 ${isNavProjectsDropdownOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
@@ -343,7 +342,7 @@ export default function Portfolio() {
 
         {/* Hero */}
         <section
-          className={`section-animate pt-6 sm:pt-16 md:pt-14 px-4 sm:px-2 relative overflow-hidden ${isDarkMode ? "bg-slate-800" : "bg-gray-50"}`}
+          className={`section-animate pt-9 md:pt-6 px-4 sm:px-2 relative overflow-hidden ${isDarkMode ? "bg-slate-800" : "bg-gray-50"}`}
         >
           <div className="max-w-9xl relative z-10 mb-2">
             <div
@@ -351,21 +350,21 @@ export default function Portfolio() {
               className="max-w-5xl justify-center mx-auto text-center"
             >
               <h2
-                className={`animate-fadeInDown ${isDarkMode ? "text-white" : "text-green-800"} md:text-2xl lg:text-3xl text-xl font-bold mb-2 md:mb-6`}
+                className={`animate-fadeInDown ${isDarkMode ? "text-white" : "text-green-800"} md:text-2xl lg:text-3xl text-xl font-bold mb-6`}
               >
-                Greetings! I am Vu Phan Anh
+                Welcome! I am Vu Phan Anh
               </h2>
               <h1
                 className={`animate-fadeInUp ${isDarkMode ? "text-gray-100" : "text-gray-900 hover:text-green-800"} md:text-xl text-md font-bold mb-6 leading-tight inline-block`}
               >
-                a High School Student Building a Foundation in Accounting and
-                Finance
+                ASEAN Undergraduate Scholar pursuing BSc Accountancy at
+                Singapore Management University
               </h1>
               <p
-                className={`animate-fadeInUp ${isDarkMode ? "text-gray-100" : "text-gray-900 hover:text-green-800"} md:text-xl text-md font-bold mb-6 sm:mb-8 leading-tight inline-block`}
+                className={`animate-fadeInUp ${isDarkMode ? "text-gray-100" : "text-gray-900 hover:text-green-800"} md:text-xl text-md font-bold mb-6 leading-tight inline-block`}
               >
-                Focused on Accuracy, Transparent Decision-Making,
-                Accountability, and Sustainability
+                Focused on Financial Reporting, ESG Assurance, and Corporate
+                Governance
               </p>
             </div>
           </div>
@@ -388,7 +387,7 @@ export default function Portfolio() {
                 </div>
                 <button
                   onClick={handleDownloadCV}
-                  className={`relative overflow-hidden rounded-[10px] border-0 cursor-pointer transition-all duration-500 h-[42px] w-[120px] text-base sm:h-[50px] sm:w-[150px] sm:text-xl before:content-['View_CV'] before:absolute before:inset-0 ${isDarkMode ? "before:bg-green-100 before:text-green-800" : "before:bg-green-700 before:text-white"} before:flex before:items-center before:justify-center before:font-semibold before:transition-all before:duration-500 after:content-['📋'] after:text-3xl after:absolute after:inset-0 ${isDarkMode ? "after:bg-green-800 after:text-white" : "after:bg-green-100 after:text-green-800 border-green-700 border-2"} after:flex after:items-center after:justify-center after:font-semibold after:translate-y-full after:transition-all after:duration-300 sm:hover:after:translate-y-0 sm:hover:after:scale-110 sm:hover:before:-translate-y-full sm:hover:before:scale-0 sm:hover:before:rotate-[120deg]`}
+                  className={`relative overflow-hidden rounded-[10px] border-0 cursor-pointer font-bold transition-all duration-500 h-[42px] w-55 md:text-2xl lg:text-2xl sm:h-[50px] before:content-['Curiculum_Vitae'] before:absolute before:inset-0 ${isDarkMode ? "before:bg-green-100 before:text-green-800" : "before:bg-green-700 before:text-white"} before:flex before:items-center before:justify-center before:font-bold before:transition-all before:duration-500 after:content-['📋'] after:text-3xl after:absolute after:inset-0 ${isDarkMode ? "after:bg-green-800 after:text-white" : "after:bg-green-100 after:text-green-800 border-green-700 border-2"} after:flex after:items-center after:justify-center after:font-semibold after:translate-y-full after:transition-all after:duration-300 sm:hover:after:translate-y-0 sm:hover:after:scale-110 sm:hover:before:-translate-y-full sm:hover:before:scale-0 sm:hover:before:rotate-[120deg]`}
                 />
               </div>
               <div className="content-animate order-1 md:order-2 lg:pl-[42px]">
@@ -398,18 +397,31 @@ export default function Portfolio() {
                   About me
                 </h2>
                 <p
-                  className={`${isDarkMode ? "text-gray-300" : "text-gray-600"} mb-3 mx-2 sm:mb-8 lg:pt-3 leading-relaxed text-md md:text-xl lg:text-[27px] text-left tracking-tighter`}
+                  className={`${isDarkMode ? "text-gray-300" : "text-gray-600"} 
+    /* Spacing & Layout */
+    mb-8 mx-auto max-w-4xl px-4 lg:pt-6
+    
+    /* Typography */
+    text-base md:text-xl lg:text-[24px] 
+    leading-relaxed md:leading-[1.6] lg:leading-[1.7]
+    
+    /* Alignment & Refinement */
+    text-left md:text-justify 
+    tracking-tight antialiased
+    break-words
+  `}
+                  style={{ hyphens: "none" }} // Giúp căn lề justify không bị khoảng trắng lớn
                 >
-                  I am drawn to Accounting through my interest in how clear
-                  rules and internal controls affect real decisions. In academic
-                  projects and group work, I often focus on checking numbers,
-                  clarifying roles, and keeping shared tasks organized, which
-                  has gradually shaped my goal of working toward a Finance
-                  Controller role. Outside of school, I follow finance and
-                  business news and compare how the same information is reported
-                  across different sources. This habit helps me see how
-                  financial data can be framed differently and why accuracy and
-                  structure matter in practice.
+                  Behind every number, someone made a choice. What to measure,
+                  what to leave out, how to govern what remains. That gap
+                  between raw data and strategic insight, where compliance ends,
+                  and judgment begins, is what I find most compelling about
+                  finance. In the sustainable energy sector, where ESG reporting
+                  shapes capital allocation and investment decisions, those
+                  choices carry real consequences. My goal is to become a
+                  Financial Controller in that space and, eventually, to move
+                  into roles where financial thinking drives strategy at
+                  organisational scale.
                 </p>
               </div>
             </div>
@@ -420,7 +432,7 @@ export default function Portfolio() {
         <section
           data-observe
           id="projects"
-          className={`section-animate py-6 sm:py-8 md:py-10 px-4 sm:px-6 pb-6 scroll-smooth scroll-mt-15 ${isDarkMode ? "bg-slate-800" : "bg-pearl-500"}`}
+          className={`section-animate py-6 sm:py-8 md:py-10 px-1 sm:px-6 pb-6 scroll-smooth scroll-mt-15 ${isDarkMode ? "bg-slate-800" : "bg-pearl-500"}`}
         >
           <div className="max-w-9xl mx-2 justify-center items-center">
             <div className="mb-10 sm:mb-16">
@@ -453,7 +465,7 @@ export default function Portfolio() {
             </div>
 
             <div
-              className={`${isDarkMode ? "bg-gray-700 border-gray-600" : "bg-white border-green-200"} backdrop-blur-lg rounded-2xl md:p-6 p-2 shadow-xl border overflow-hidden`}
+              className={`${isDarkMode ? "bg-gray-700 border-gray-600" : "bg-white border-green-200"} backdrop-blur-lg rounded-2xl md:p-6 py-6 px-2 shadow-xl border overflow-hidden`}
             >
               <TabContent
                 activeTab={activeTab}
@@ -483,7 +495,7 @@ export default function Portfolio() {
                   </span>
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-3 md:gap-6 gap-4">
-                  <div className="flex items-center justify-center lg:items-end gap-3 sm:gap-4 pr-10 sm:pr-0">
+                  <div className="flex items-center justify-center lg:items-end gap-1 mx-auto">
                     <div className="size-8 md:size-10 bg-green-800 rounded-full flex items-center justify-center shrink-0">
                       <svg
                         className="w-5 h-5 sm:w-6 sm:h-6 text-white"
@@ -548,8 +560,8 @@ export default function Portfolio() {
                       </svg>
                     </a>
                   </div>
-                  <div className="flex justify-center items-center gap-6 sm:gap-8">
-                    <div className="flex items-center justify-center lg:items-end gap-3 sm:gap-4 pr-10 sm:pr-0">
+                  <div className="flex justify-center items-center mx-auto">
+                    <div className="flex items-center justify-center lg:items-end gap-1 mx-auto">
                       <div className="size-8 md:size-10 bg-green-800 rounded-full flex items-center justify-center shrink-0">
                         <svg
                           className="w-5 h-5 sm:w-6 sm:h-6 text-white"
