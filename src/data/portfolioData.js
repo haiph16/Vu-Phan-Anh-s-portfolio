@@ -16,7 +16,7 @@ import extracurricular3 from "../assets/tv-clb-ta.jpg";
 import extracurricular4 from "../assets/kh-leadership-UK.jpg";
 import extracurricular5 from "../assets/kh-public-speaking-Sing.jpg";
 import extracurricular6 from "../assets/onepage.jpg";
-import socialimpact1 from "../assets/tu-thien-tet-cec.jpg";
+import socialimpact1 from "../assets/Tu-thien-tet-cec.jpg";
 import socialimpact2 from "../assets/tu-thien-nu-cuoi.jpg";
 import socialimpact3 from "../assets/Dich-sach.jpg";
 import academic4 from "../assets/academic4.jpg";
